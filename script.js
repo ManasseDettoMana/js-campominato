@@ -1,6 +1,7 @@
 
-function numeroCasuale(nBombe,vBombe){
+function numeroCasuale(nBombe){
 
+    let vBombe = [];
     for(let i=0;i<nBombe;i++){
         let app=Math.floor(Math.random() * 100) + 1;        //metto il numero randomico in una variabile d'appoggio.
         if(vBombe.includes(app)){                           //controllo se il numero è già presente nel vettore.
@@ -9,10 +10,11 @@ function numeroCasuale(nBombe,vBombe){
             vBombe.push(app);
         }
     }
+    return vBombe;
 }
 
 function loopGame(nBombe, nCaselle, vettoreBombe){
-    let i=0;
+
     let numero;
     let condizione=true;
     let numeriInseriti = [];
@@ -20,28 +22,49 @@ function loopGame(nBombe, nCaselle, vettoreBombe){
     do{
         numero=parseInt(prompt("Inserisci un numero compreso tra 1 e 100"));
 
-        if(i>nCaselle-nBombe || numero<1 || numero>100 || vettoreBombe.includes(numero) || numeriInseriti.includes(numero)){
+        if(numero<1 || numero>100 || numeriInseriti.includes(numero)){
+            alert("Numero non valido");
+            continue;
+        }
+
+        if(numeriInseriti.length>nCaselle-nBombe ||  vettoreBombe.includes(numero)){
             condizione=false;
         }else{
             numeriInseriti.push(numero);
-            i++;
         }
 
     }while(condizione);
 
-    return i;
+    return numeriInseriti.length;
 }
 
-let nBombe = 16;
-let nCaselle=100;
-let vettoreBombe = [];
 
-numeroCasuale(nBombe, vettoreBombe);
+
+let nBombe;
+let nCaselle=100;
+let vettoreBombe = numeroCasuale(nBombe);
+
+let livello=prompt("Seleziona la difficoltà  \"FACILE\" \"MEDIA\" o \"DIFFICILE\"");
+
+
+
+if(livello.trim().toLowerCase()== "facile"){
+    nBombe=5;
+}else if(livello.trim().toLowerCase()== "media"){
+    nBombe=16;
+}else if(livello.trim().toLowerCase()== "difficile"){
+    nBombe=30;
+}
+    
+
+
+
+alert("Hai scelto " + livello);
+
+
 console.log(vettoreBombe);
-let punteggioTotale= loopGame(nBombe, nCaselle, vettoreBombe);
+
+ let punteggioTotale= loopGame(nBombe, nCaselle, vettoreBombe);
 
 
 alert(" il punteggio totale è di " + punteggioTotale);
-
-
-
